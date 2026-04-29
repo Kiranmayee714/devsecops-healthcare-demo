@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthcare-devsecops-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: healthcare-devsecops
+  template:
+    metadata:
+      labels:
+        app: healthcare-devsecops
+    spec:
+      containers:
+        - name: healthcare-container
+          image: healthcare-devsecops:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
