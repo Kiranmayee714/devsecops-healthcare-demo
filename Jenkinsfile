@@ -17,7 +17,7 @@ pipeline {
 
         stage('Security Scan (Trivy)') {
             steps {
-                bat 'trivy image healthcare-devsecops:latest'
+                bat 'trivy image --exit-code 1 --severity HIGH,CRITICAL healthcare-devsecops:latest'
             }
         }
 
@@ -25,6 +25,12 @@ pipeline {
             steps {
                 bat 'kubectl apply -f k8s\\deployment.yaml --validate=false'
                 bat 'kubectl apply -f k8s\\service.yaml --validate=false'
+            }
+        }
+
+        stage('Restart Deployment') {
+            steps {
+                bat 'kubectl rollout restart deployment healthcare-devsecops-deployment'
             }
         }
 

@@ -1,10 +1,197 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Healthcare DevSecOps Demo</title>
+  <title>MediSecure DevSecOps</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #eef7f8;
+      color: #123;
+    }
+
+    .navbar {
+      background: #ffffff;
+      padding: 18px 55px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0f766e;
+    }
+
+    .status {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 8px 18px;
+      border-radius: 25px;
+      font-weight: bold;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 70px 80px;
+      gap: 40px;
+    }
+
+    .left {
+      max-width: 560px;
+    }
+
+    h1 {
+      font-size: 46px;
+      color: #0f766e;
+      margin-bottom: 15px;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      background: #0f766e;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .dashboard {
+      background: white;
+      width: 430px;
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .patient-card {
+      background: #f8fafc;
+      border-radius: 15px;
+      padding: 18px;
+      margin-bottom: 18px;
+      border-left: 5px solid #0f766e;
+    }
+
+    .label {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .value {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 4px;
+    }
+
+    .security {
+      background: #ecfeff;
+      color: #0f766e;
+      padding: 15px;
+      border-radius: 14px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 0 80px 60px;
+    }
+
+    .feature {
+      background: white;
+      padding: 22px;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .feature h3 {
+      color: #0f766e;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      color: #64748b;
+      font-size: 14px;
+    }
+  </style>
 </head>
-<body style="font-family: Arial; text-align: center; margin-top: 100px;">
-    <h1 style="color: #0b7285;">Healthcare DevSecOps System</h1>
-    <p>Secure deployment using Jenkins, Docker, Trivy, and Kubernetes.</p>
+
+<body>
+
+  <div class="navbar">
+    <div class="logo">MediSecure Cloud</div>
+    <div class="status">Protected Deployment</div>
+  </div>
+
+  <section class="hero">
+    <div class="left">
+      <h1>Secure Healthcare Deployment Platform</h1>
+      <p class="subtitle">
+        A DevSecOps-enabled healthcare system that protects patient records,
+        scans container images, and deploys securely using Jenkins, Docker,
+        Trivy, and Kubernetes.
+      </p>
+      <div class="btn">Security Scan Passed</div>
+    </div>
+
+    <div class="dashboard">
+      <div class="patient-card">
+        <div class="label">Patient Data Protection</div>
+        <div class="value">Encrypted Records</div>
+      </div>
+
+      <div class="patient-card">
+        <div class="label">Deployment Status</div>
+        <div class="value">Kubernetes Pods Running</div>
+      </div>
+
+      <div class="patient-card">
+        <div class="label">Image Security</div>
+        <div class="value">Trivy Vulnerability Scan</div>
+      </div>
+
+      <div class="security">
+        Code -> Scan -> Build -> Deploy -> Monitor
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <h3>Secure Records</h3>
+      <p>Protects sensitive patient information.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Image Scanning</h3>
+      <p>Detects vulnerabilities before deployment.</p>
+    </div>
+
+    <div class="feature">
+      <h3>CI/CD Pipeline</h3>
+      <p>Automated delivery using Jenkins.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Kubernetes</h3>
+      <p>Reliable container orchestration.</p>
+    </div>
+  </section>
+
 </body>
 </html>
