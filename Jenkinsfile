@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        KUBECONFIG = "C:\\Users\\user\\.kube\\config"
-        PYTHON_EXE = "C:\\Python311\\python.exe"
+          KUBECONFIG = "C:\\Users\\user\\.kube\\config"
+    PYTHON_EXE = "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"
     }
 
     stages {
