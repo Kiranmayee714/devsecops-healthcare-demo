@@ -3,14 +3,17 @@ pipeline {
 
     environment {
         KUBECONFIG = "C:\\Users\\user\\.kube\\config"
+        PYTHON_EXE = "C:\\Python311\\python.exe"
     }
 
     stages {
 
         stage('Code Security Scan') {
             steps {
-                bat 'echo Code Security Scan stage completed'
-                bat 'echo Bandit skipped because pip is not configured in Jenkins PATH'
+                bat "\"%PYTHON_EXE%\" --version"
+                bat "\"%PYTHON_EXE%\" -m pip --version"
+                bat "\"%PYTHON_EXE%\" -m pip install bandit"
+                bat "\"%PYTHON_EXE%\" -m bandit -r app || exit 0"
             }
         }
 
@@ -24,7 +27,8 @@ pipeline {
 
         stage('Container Security Scan') {
             steps {
-                bat 'trivy image healthcare-devsecops:latest || exit 0'
+                bat 'chcp 65001'
+                bat 'trivy image --format table healthcare-devsecops:latest || exit 0'
             }
         }
 
