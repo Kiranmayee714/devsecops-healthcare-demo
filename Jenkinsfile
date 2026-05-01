@@ -15,22 +15,17 @@ pipeline {
             }
         }
 
-        stage('Security Scan (Trivy)') {
-            steps {
-                bat '''
-                chcp 65001
-                echo Running Trivy Security Scan...
+stage('Security Scan (Trivy)') {
+    steps {
+        powershell '''
+        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+        $OutputEncoding = [System.Text.Encoding]::UTF8
+        chcp 65001
 
-                trivy image --format table --no-progress --severity HIGH,CRITICAL ^
-                --output trivy-report.txt healthcare-devsecops:latest || exit 0
-
-                echo ===============================
-                echo Trivy Scan Report:
-                echo ===============================
-                type trivy-report.txt
-                '''
-            }
-        }
+        trivy image --format table --no-progress --severity HIGH,CRITICAL healthcare-devsecops:latest
+        '''
+    }
+}
 
         stage('Deploy to Kubernetes') {
             steps {
