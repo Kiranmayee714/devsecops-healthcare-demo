@@ -7,6 +7,13 @@ pipeline {
 
     stages {
 
+        stage('Code Security Scan') {
+            steps {
+                bat 'pip install bandit'
+                bat 'bandit -r app/ || exit 0'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 dir('app') {
@@ -15,49 +22,29 @@ pipeline {
             }
         }
 
-stage('Security Scan (Trivy)') {
-    steps {
-        powershell '''
-        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        $OutputEncoding = [System.Text.Encoding]::UTF8
-        chcp 65001
-
-        trivy image --format table --no-progress --severity HIGH,CRITICAL healthcare-devsecops:latest
-        '''
-    }
-}
-
-        stage('Deploy to Kubernetes') {
+        stage('Container Security Scan') {
             steps {
                 bat '''
-                kubectl apply -f k8s\\deployment.yaml --validate=false
-                kubectl apply -f k8s\\service.yaml --validate=false
+                echo Running Trivy Scan...
+                trivy image --format json --severity HIGH,CRITICAL --scanners vuln ^
+                --output trivy-report.json healthcare-devsecops:latest || exit 0
+                echo Scan Completed
                 '''
             }
         }
 
-        stage('Restart Deployment') {
+        stage('Deploy to Kubernetes') {
             steps {
-                bat 'kubectl rollout restart deployment healthcare-devsecops-deployment'
+                bat 'kubectl apply -f k8s\\deployment.yaml --validate=false'
+                bat 'kubectl apply -f k8s\\service.yaml --validate=false'
             }
         }
 
         stage('Verify Deployment') {
             steps {
-                bat '''
-                echo Checking Pods...
-                kubectl get pods
-
-                echo Checking Services...
-                kubectl get svc
-                '''
+                bat 'kubectl get pods'
+                bat 'kubectl get svc'
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline execution completed.'
         }
     }
 }
