@@ -13,7 +13,7 @@ pipeline {
                 bat "\"%PYTHON_EXE%\" --version"
                 bat "\"%PYTHON_EXE%\" -m pip --version"
                 bat "\"%PYTHON_EXE%\" -m pip install bandit"
-                bat "\"%PYTHON_EXE%\" -m bandit -r app || exit 0"
+                bat "\"%PYTHON_EXE%\" -m bandit -r app --no-color || exit 0"
             }
         }
 
