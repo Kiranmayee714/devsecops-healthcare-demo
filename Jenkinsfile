@@ -16,15 +16,28 @@ pipeline {
         }
 
         stage('Security Scan (Trivy)') {
-    steps {
-        bat 'trivy image healthcare-devsecops:latest || exit 0'
-    }
-}
+            steps {
+                bat '''
+                chcp 65001
+                echo Running Trivy Security Scan...
+
+                trivy image --format table --no-progress --severity HIGH,CRITICAL ^
+                --output trivy-report.txt healthcare-devsecops:latest || exit 0
+
+                echo ===============================
+                echo Trivy Scan Report:
+                echo ===============================
+                type trivy-report.txt
+                '''
+            }
+        }
 
         stage('Deploy to Kubernetes') {
             steps {
-                bat 'kubectl apply -f k8s\\deployment.yaml --validate=false'
-                bat 'kubectl apply -f k8s\\service.yaml --validate=false'
+                bat '''
+                kubectl apply -f k8s\\deployment.yaml --validate=false
+                kubectl apply -f k8s\\service.yaml --validate=false
+                '''
             }
         }
 
@@ -36,9 +49,20 @@ pipeline {
 
         stage('Verify Deployment') {
             steps {
-                bat 'kubectl get pods'
-                bat 'kubectl get svc'
+                bat '''
+                echo Checking Pods...
+                kubectl get pods
+
+                echo Checking Services...
+                kubectl get svc
+                '''
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
         }
     }
 }
