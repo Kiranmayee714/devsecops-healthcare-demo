@@ -31,14 +31,24 @@ pipeline {
                 echo Running Trivy Container Scan...
 
                 trivy image --format json --severity HIGH,CRITICAL --scanners vuln ^
+                --skip-version-check ^
                 --output trivy-report.json healthcare-devsecops:latest || exit 0
 
                 echo ===============================
                 echo TRIVY SECURITY SCAN SUMMARY
                 echo ===============================
-                echo Image Scanned: healthcare-devsecops:latest
-                echo Scan completed successfully
-                echo Report saved as trivy-report.json
+                echo Image: healthcare-devsecops:latest
+
+                findstr /C:"\\"Severity\\":\\"HIGH\\"" trivy-report.json | find /C ":" > high.txt
+                set /p HIGH=<high.txt
+
+                findstr /C:"\\"Severity\\":\\"CRITICAL\\"" trivy-report.json | find /C ":" > critical.txt
+                set /p CRITICAL=<critical.txt
+
+                echo HIGH vulnerabilities: %HIGH%
+                echo CRITICAL vulnerabilities: %CRITICAL%
+
+                echo Report generated: trivy-report.json
                 echo ===============================
                 '''
             }
